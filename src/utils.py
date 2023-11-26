@@ -1,4 +1,6 @@
 import json
+from datetime import datetime
+import datetime
 
 from config import OPERATIONS_PATH
 from src.models import Operation
@@ -22,13 +24,14 @@ def get_information_operations(operations: list[dict]) -> list[Operation]:
     information_operations = []
     for operation in operations:
         if operation:
-            information_operations.append(Operation(pk=operation["id"],
-                                                   date=operation["date"],
-                                                   state=operation["state"],
-                                                   amount=operation["operationAmount"],
-                                                   description=operation["description"],
-                                                   from_=operation.get("from", "Нет информации"),
-                                                   to=operation["to"]))
+            information_operations.append(Operation(
+                pk=operation["id"],
+                date=operation["date"],
+                state=operation["state"],
+                amount=operation["operationAmount"],
+                description=operation["description"],
+                from_=operation.get("from", None),
+                to=operation["to"]))
     return information_operations
 
 
@@ -43,3 +46,16 @@ def get_executed_operations(operations: list[Operation]) -> list[Operation]:
         if operation.state == "EXECUTED":
             executed_operations.append(operation)
     return executed_operations
+
+
+def get_sorted_operations(operations: list[Operation]) -> list:
+    """
+    Получение отсортированных по дате операций.
+    :param operations: Список операций.
+    :return: Отсортированный список.
+    """
+    sorted_operation = []
+    operations.sort(key=lambda x: datetime.datetime.strptime(x.get_date(), "%d.%m.%Y"), reverse=True)
+    for operation in operations:
+        sorted_operation.append(operation)
+    return sorted_operation
