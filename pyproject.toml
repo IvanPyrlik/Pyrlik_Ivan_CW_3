@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "pyrlik-ivan-cw-3"
+version = "0.1.0"
+description = ""
+authors = ["IvanPyrlik <ivan.pyrlik59@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pytest = "^7.4.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
