@@ -13,20 +13,33 @@ def load_operations() -> list[dict]:
         return json.load(file)
 
 
-def get_information_operation(operations: list[dict]) -> list[Operation]:
+def get_information_operations(operations: list[dict]) -> list[Operation]:
     """
-    Получение информации о всех операциях.
+    Создание экземпляра класса с информацией о всех операциях.
     :param operations: Список с операциями.
     :return: Информация о операциях.
     """
-    information_operation = []
+    information_operations = []
     for operation in operations:
         if operation:
-            information_operation.append(Operation(pk=operation["id"],
+            information_operations.append(Operation(pk=operation["id"],
                                                    date=operation["date"],
                                                    state=operation["state"],
                                                    amount=operation["operationAmount"],
                                                    description=operation["description"],
                                                    from_=operation.get("from", "Нет информации"),
                                                    to=operation["to"]))
-    return information_operation
+    return information_operations
+
+
+def get_executed_operations(operations: list[Operation]) -> list[Operation]:
+    """
+    Получение списка выполненых операций.
+    :param operations: Информация о операциях.
+    :return: Список выполненых операций.
+    """
+    executed_operations = []
+    for operation in operations:
+        if operation.state == "EXECUTED":
+            executed_operations.append(operation)
+    return executed_operations
